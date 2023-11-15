@@ -43,15 +43,15 @@ module ActionView
       #
       # Example:
       #
-      #   country_select(@object, :region, {priority: ['US', 'CA']}, class: 'region')
+      #   carmen_country_select(@object, :region, {priority: ['US', 'CA']}, class: 'region')
       #
       # Note that in order to preserve compatibility with various existing
       # libraries, an alternative API is supported but not recommended:
       #
-      #   country_select(@object, :region, ['US', 'CA'], class: region)
+      #   carmen_country_select(@object, :region, ['US', 'CA'], class: region)
       #
       # Returns an `html_safe` string containing the HTML for a select element.
-      def country_select(object, method, priorities_or_options = {}, options_or_html_options = {}, html_options = {})
+      def carmen_country_select(object, method, priorities_or_options = {}, options_or_html_options = {}, html_options = {})
         if priorities_or_options.is_a? Array
           options = options_or_html_options
           options[:priority] = priorities_or_options
@@ -124,10 +124,10 @@ module ActionView
       #
       # Example:
       #
-      #   country_select_tag('country_code', {priority: ['US', 'CA']}, class: 'region')
+      #   carmen_country_select_tag('country_code', {priority: ['US', 'CA']}, class: 'region')
       #
       # Returns an `html_safe` string containing the HTML for a select element.
-      def country_select_tag(name, value, options={})
+      def carmen_country_select_tag(name, value, options={})
         subregion_select_tag(name, value, Carmen::World.instance, options)
       end
 
@@ -212,12 +212,12 @@ module ActionView
 
             value = options[:selected] ? options[:selected] : (method(:value).arity.zero? ? value() : value(object))
             priority_regions = options[:priority] || []
-            opts = add_options(region_options_for_select(parent_region.subregions, value, 
-                                                        :priority => priority_regions), 
+            opts = add_options(region_options_for_select(parent_region.subregions, value,
+                                                        :priority => priority_regions),
                                options, value)
             select = content_tag("select", opts, html_options)
             if html_options["multiple"] && options.fetch(:include_hidden, true)
-              tag("input", :disabled => html_options["disabled"], :name => html_options["name"], 
+              tag("input", :disabled => html_options["disabled"], :name => html_options["name"],
                            :type => "hidden", :value => "") + select
             else
               select
@@ -232,7 +232,7 @@ module ActionView
       # common use of this would be to allow users to select a country name inside a
       # web form.
       #
-      # See `FormOptionsHelper::country_select` for more information.
+      # See `FormOptionsHelper::carmen_country_select` for more information.
       def carmen_country_select(method, priorities_or_options = {}, options_or_html_options = {}, html_options = {})
         if priorities_or_options.is_a? Array
           options = options_or_html_options
@@ -242,7 +242,7 @@ module ActionView
           html_options = options_or_html_options
         end
 
-        @template.country_select(@object_name, method, objectify_options(options), @default_options.merge(html_options))
+        @template.carmen_country_select(@object_name, method, objectify_options(options), @default_options.merge(html_options))
       end
 
       # Generate select and subregion option tags with the provided name. A
